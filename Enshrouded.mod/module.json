@@ -1,0 +1,625 @@
+{
+  "id": "enshrouded",
+  "name": "Enshrouded Dedicated Server",
+  "version": "1.0.0",
+  "type": "csharp",
+  "entry": "WindowsGSH.Modules.Enshrouded.EnshroudedModule",
+  "author": "Shenniko ",
+  "description": "Installs, configures, starts, monitors, and manages Enshrouded dedicated servers.",
+  "url": "https://github.com/WindowsGSH/WindowsGSH.Enshrouded",
+  "homepage": "https://enshrouded.com/",
+  "repository": "https://github.com/WindowsGSH/WindowsGSH.Enshrouded",
+  "sourceUrl": "https://github.com/WindowsGSH/WindowsGSH.Enshrouded",
+  "color": "#1E8449",
+  "moduleApiVersion": "1.0",
+  "minimumWindowsGshVersion": "0.1.0",
+  "steam": {
+    "appId": "2278520",
+    "anonymous": true,
+    "validate": true
+  },
+  "platform": "windows",
+  "entryPoints": {
+    "start": "enshrouded_server.exe",
+    "processNames": [
+      "enshrouded_server"
+    ]
+  },
+  "runtime": {
+    "allowsEmbeddedConsole": true,
+    "consoleStrategy": "Redirected",
+    "queryProtocol": "A2S",
+    "portIncrements": 1,
+    "defaultArguments": "{?launch.log:-log} -ip={quote:network.ip} -queryPort={network.queryPort} -slotCount={server.maxPlayers} -name={quote:server.name} {server.additionalArguments}",
+    "logPath": "logs",
+    "stop": {
+      "strategy": "closeWindow",
+      "waitMilliseconds": 5000,
+      "killAfterTimeout": true
+    }
+  },
+  "capabilities": {
+    "directConnection": true,
+    "consoleCommands": false
+  },
+  "configFields": [
+    {
+      "key": "server.name",
+      "label": "Server Name",
+      "type": "Text",
+      "defaultValue": "Enshrouded Server",
+      "required": true,
+      "group": "Server"
+    },
+    {
+      "key": "server.maxPlayers",
+      "label": "Player Slots",
+      "type": "Number",
+      "defaultValue": 16,
+      "required": true,
+      "minimum": 1,
+      "maximum": 16,
+      "description": "Enshrouded supports slotCount values from 1 to 16.",
+      "group": "Server",
+      "restartRequired": true
+    },
+    {
+      "key": "network.ip",
+      "label": "Bind IP",
+      "type": "Text",
+      "defaultValue": "0.0.0.0",
+      "group": "Network",
+      "restartRequired": true
+    },
+    {
+      "key": "network.queryPort",
+      "label": "Query Port",
+      "type": "Port",
+      "defaultValue": 15637,
+      "required": true,
+      "minimum": 1,
+      "maximum": 65535,
+      "description": "Default connection/query port used by the Enshrouded server browser and Steam favorites.",
+      "group": "Network",
+      "restartRequired": true
+    },
+    {
+      "key": "paths.saveDirectory",
+      "label": "Save Directory",
+      "type": "Text",
+      "defaultValue": "./savegame",
+      "group": "Paths",
+      "restartRequired": true
+    },
+    {
+      "key": "paths.logDirectory",
+      "label": "Log Directory",
+      "type": "Text",
+      "defaultValue": "./logs",
+      "group": "Paths",
+      "restartRequired": true
+    },
+    {
+      "key": "chat.voiceChatMode",
+      "label": "Voice Chat Mode",
+      "type": "Select",
+      "defaultValue": "Proximity",
+      "options": [
+        "Proximity",
+        "Global"
+      ],
+      "group": "Chat",
+      "restartRequired": true
+    },
+    {
+      "key": "chat.enableVoiceChat",
+      "label": "Voice Chat",
+      "type": "Boolean",
+      "defaultValue": false,
+      "description": "Writes enableVoiceChat as true or false in enshrouded_server.json.",
+      "group": "Chat",
+      "restartRequired": true
+    },
+    {
+      "key": "chat.enableTextChat",
+      "label": "Text Chat",
+      "type": "Boolean",
+      "defaultValue": false,
+      "description": "Writes enableTextChat as true or false in enshrouded_server.json.",
+      "group": "Chat",
+      "restartRequired": true
+    },
+    {
+      "key": "game.preset",
+      "label": "Difficulty Preset",
+      "type": "Select",
+      "defaultValue": "Default",
+      "options": [
+        "Default",
+        "Relaxed",
+        "Hard",
+        "Survival",
+        "Custom"
+      ],
+      "description": "Individual gameplay settings only take effect when Enshrouded is set to Custom.",
+      "group": "Gameplay",
+      "restartRequired": true
+    },
+    {
+      "key": "game.playerHealthFactor",
+      "label": "Player Health",
+      "type": "Number",
+      "defaultValue": 1.0,
+      "minimum": 0.25,
+      "maximum": 4.0,
+      "group": "Player",
+      "restartRequired": true
+    },
+    {
+      "key": "game.playerManaFactor",
+      "label": "Player Mana",
+      "type": "Number",
+      "defaultValue": 1.0,
+      "minimum": 0.25,
+      "maximum": 4.0,
+      "group": "Player",
+      "restartRequired": true
+    },
+    {
+      "key": "game.playerStaminaFactor",
+      "label": "Player Stamina",
+      "type": "Number",
+      "defaultValue": 1.0,
+      "minimum": 0.25,
+      "maximum": 4.0,
+      "group": "Player",
+      "restartRequired": true
+    },
+    {
+      "key": "game.playerBodyHeatFactor",
+      "label": "Body Heat",
+      "type": "Number",
+      "defaultValue": 1.0,
+      "minimum": 0.5,
+      "maximum": 2.0,
+      "group": "Player",
+      "restartRequired": true
+    },
+    {
+      "key": "game.playerDivingTimeFactor",
+      "label": "Diving Time",
+      "type": "Number",
+      "defaultValue": 1.0,
+      "minimum": 0.5,
+      "maximum": 2.0,
+      "group": "Player",
+      "restartRequired": true
+    },
+    {
+      "key": "game.enableDurability",
+      "label": "Weapon Durability",
+      "type": "Boolean",
+      "defaultValue": true,
+      "group": "Survival",
+      "restartRequired": true
+    },
+    {
+      "key": "game.enableStarvingDebuff",
+      "label": "Starvation",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Survival",
+      "restartRequired": true
+    },
+    {
+      "key": "game.foodBuffDurationFactor",
+      "label": "Food Buff Duration",
+      "type": "Number",
+      "defaultValue": 1.0,
+      "minimum": 0.5,
+      "maximum": 2.0,
+      "group": "Survival",
+      "restartRequired": true
+    },
+    {
+      "key": "game.fromHungerToStarving",
+      "label": "Hungry State",
+      "type": "Number",
+      "defaultValue": 600000000000,
+      "minimum": 300000000000,
+      "maximum": 1200000000000,
+      "description": "Nanoseconds before hunger becomes starving.",
+      "group": "Survival",
+      "restartRequired": true
+    },
+    {
+      "key": "game.shroudTimeFactor",
+      "label": "Shroud Time",
+      "type": "Number",
+      "defaultValue": 1.0,
+      "minimum": 0.5,
+      "maximum": 2.0,
+      "group": "Survival",
+      "restartRequired": true
+    },
+    {
+      "key": "game.tombstoneMode",
+      "label": "Tombstone Mode",
+      "type": "Select",
+      "defaultValue": "AddBackpackMaterials",
+      "options": [
+        "AddBackpackMaterials",
+        "Everything",
+        "NoTombstone"
+      ],
+      "group": "Survival",
+      "restartRequired": true
+    },
+    {
+      "key": "game.enableGliderTurbulences",
+      "label": "Glider Turbulence",
+      "type": "Boolean",
+      "defaultValue": true,
+      "group": "World",
+      "restartRequired": true
+    },
+    {
+      "key": "game.weatherFrequency",
+      "label": "Weather Frequency",
+      "type": "Select",
+      "defaultValue": "Normal",
+      "options": [
+        "Disabled",
+        "Rare",
+        "Normal",
+        "Often"
+      ],
+      "group": "World",
+      "restartRequired": true
+    },
+    {
+      "key": "game.fishingDifficulty",
+      "label": "Fishing Difficulty",
+      "type": "Select",
+      "defaultValue": "Normal",
+      "options": [
+        "VeryEasy",
+        "Easy",
+        "Normal",
+        "Hard",
+        "VeryHard"
+      ],
+      "group": "World",
+      "restartRequired": true
+    },
+    {
+      "key": "game.miningDamageFactor",
+      "label": "Mining Effectiveness",
+      "type": "Number",
+      "defaultValue": 1.0,
+      "minimum": 0.5,
+      "maximum": 2.0,
+      "group": "World",
+      "restartRequired": true
+    },
+    {
+      "key": "game.plantGrowthSpeedFactor",
+      "label": "Plant Growth",
+      "type": "Number",
+      "defaultValue": 1.0,
+      "minimum": 0.25,
+      "maximum": 2.0,
+      "group": "World",
+      "restartRequired": true
+    },
+    {
+      "key": "game.resourceDropStackAmountFactor",
+      "label": "Resource Gain",
+      "type": "Number",
+      "defaultValue": 1.0,
+      "minimum": 0.25,
+      "maximum": 2.0,
+      "group": "World",
+      "restartRequired": true
+    },
+    {
+      "key": "game.factoryProductionSpeedFactor",
+      "label": "Workstation Speed",
+      "type": "Number",
+      "defaultValue": 1.0,
+      "minimum": 0.25,
+      "maximum": 2.0,
+      "group": "World",
+      "restartRequired": true
+    },
+    {
+      "key": "game.perkUpgradeRecyclingFactor",
+      "label": "Recycling Yield",
+      "type": "Number",
+      "defaultValue": 0.5,
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "group": "Progression",
+      "restartRequired": true
+    },
+    {
+      "key": "game.perkCostFactor",
+      "label": "Upgrade Costs",
+      "type": "Number",
+      "defaultValue": 1.0,
+      "minimum": 0.25,
+      "maximum": 2.0,
+      "group": "Progression",
+      "restartRequired": true
+    },
+    {
+      "key": "game.experienceCombatFactor",
+      "label": "Combat XP",
+      "type": "Number",
+      "defaultValue": 1.0,
+      "minimum": 0.25,
+      "maximum": 2.0,
+      "group": "Progression",
+      "restartRequired": true
+    },
+    {
+      "key": "game.experienceMiningFactor",
+      "label": "Mining XP",
+      "type": "Number",
+      "defaultValue": 1.0,
+      "minimum": 0.0,
+      "maximum": 2.0,
+      "group": "Progression",
+      "restartRequired": true
+    },
+    {
+      "key": "game.experienceExplorationQuestsFactor",
+      "label": "Exploration XP",
+      "type": "Number",
+      "defaultValue": 1.0,
+      "minimum": 0.25,
+      "maximum": 2.0,
+      "group": "Progression",
+      "restartRequired": true
+    },
+    {
+      "key": "game.randomSpawnerAmount",
+      "label": "Enemy Amount",
+      "type": "Select",
+      "defaultValue": "Normal",
+      "options": [
+        "Few",
+        "Normal",
+        "Many",
+        "Extreme"
+      ],
+      "group": "Enemies",
+      "restartRequired": true
+    },
+    {
+      "key": "game.aggroPoolAmount",
+      "label": "Simultaneous Attacks",
+      "type": "Select",
+      "defaultValue": "Normal",
+      "options": [
+        "Few",
+        "Normal",
+        "Many",
+        "Extreme"
+      ],
+      "group": "Enemies",
+      "restartRequired": true
+    },
+    {
+      "key": "game.enemyDamageFactor",
+      "label": "Enemy Damage",
+      "type": "Number",
+      "defaultValue": 1.0,
+      "minimum": 0.25,
+      "maximum": 5.0,
+      "group": "Enemies",
+      "restartRequired": true
+    },
+    {
+      "key": "game.enemyHealthFactor",
+      "label": "Enemy Health",
+      "type": "Number",
+      "defaultValue": 1.0,
+      "minimum": 0.25,
+      "maximum": 4.0,
+      "group": "Enemies",
+      "restartRequired": true
+    },
+    {
+      "key": "game.enemyStaminaFactor",
+      "label": "Enemy Stun",
+      "type": "Number",
+      "defaultValue": 1.0,
+      "minimum": 0.5,
+      "maximum": 2.0,
+      "group": "Enemies",
+      "restartRequired": true
+    },
+    {
+      "key": "game.enemyPerceptionRangeFactor",
+      "label": "Enemy Perception",
+      "type": "Number",
+      "defaultValue": 1.0,
+      "minimum": 0.5,
+      "maximum": 2.0,
+      "group": "Enemies",
+      "restartRequired": true
+    },
+    {
+      "key": "game.bossDamageFactor",
+      "label": "Boss Damage",
+      "type": "Number",
+      "defaultValue": 1.0,
+      "minimum": 0.2,
+      "maximum": 5.0,
+      "group": "Enemies",
+      "restartRequired": true
+    },
+    {
+      "key": "game.bossHealthFactor",
+      "label": "Boss Health",
+      "type": "Number",
+      "defaultValue": 1.0,
+      "minimum": 0.2,
+      "maximum": 5.0,
+      "group": "Enemies",
+      "restartRequired": true
+    },
+    {
+      "key": "game.threatBonus",
+      "label": "Enemy Attacks",
+      "type": "Number",
+      "defaultValue": 1.0,
+      "minimum": 0.25,
+      "maximum": 4.0,
+      "group": "Enemies",
+      "restartRequired": true
+    },
+    {
+      "key": "game.pacifyAllEnemies",
+      "label": "Pacify Enemies",
+      "type": "Boolean",
+      "defaultValue": false,
+      "group": "Enemies",
+      "restartRequired": true
+    },
+    {
+      "key": "game.tamingStartleRepercussion",
+      "label": "Taming Failure",
+      "type": "Select",
+      "defaultValue": "LoseSomeProgress",
+      "options": [
+        "KeepProgress",
+        "LoseSomeProgress",
+        "LoseAllProgress"
+      ],
+      "group": "Taming",
+      "restartRequired": true
+    },
+    {
+      "key": "game.dayTimeDuration",
+      "label": "Daytime Duration",
+      "type": "Number",
+      "defaultValue": 1800000000000,
+      "minimum": 120000000000,
+      "maximum": 3600000000000,
+      "description": "Nanoseconds. Official range is 2 to 60 minutes.",
+      "group": "Time",
+      "restartRequired": true
+    },
+    {
+      "key": "game.nightTimeDuration",
+      "label": "Nighttime Duration",
+      "type": "Number",
+      "defaultValue": 720000000000,
+      "minimum": 120000000000,
+      "maximum": 3600000000000,
+      "description": "Nanoseconds. Official range is 2 to 60 minutes.",
+      "group": "Time",
+      "restartRequired": true
+    },
+    {
+      "key": "game.curseModifier",
+      "label": "Shroud Curse",
+      "type": "Select",
+      "defaultValue": "Normal",
+      "options": [
+        "Easy",
+        "Normal",
+        "Hard"
+      ],
+      "group": "Survival",
+      "restartRequired": true
+    },
+    {
+      "key": "roles.admin.password",
+      "label": "Admin Password",
+      "type": "Password",
+      "defaultValue": "",
+      "description": "Blank values are replaced with a generated password for fresh configs and preserve existing passwords on later saves.",
+      "group": "Roles"
+    },
+    {
+      "key": "roles.admin.reservedSlots",
+      "label": "Admin Reserved Slots",
+      "type": "Number",
+      "defaultValue": 0,
+      "minimum": 0,
+      "maximum": 16,
+      "group": "Roles"
+    },
+    {
+      "key": "roles.friend.password",
+      "label": "Friend Password",
+      "type": "Password",
+      "defaultValue": "",
+      "description": "Blank values are replaced with a generated password for fresh configs and preserve existing passwords on later saves.",
+      "group": "Roles"
+    },
+    {
+      "key": "roles.friend.reservedSlots",
+      "label": "Friend Reserved Slots",
+      "type": "Number",
+      "defaultValue": 0,
+      "minimum": 0,
+      "maximum": 16,
+      "group": "Roles"
+    },
+    {
+      "key": "launch.log",
+      "label": "Log Argument",
+      "type": "Boolean",
+      "defaultValue": true,
+      "description": "Adds -log to the server command line.",
+      "group": "Launch",
+      "restartRequired": true
+    },
+    {
+      "key": "server.additionalArguments",
+      "label": "Additional Arguments",
+      "type": "CommandLine",
+      "defaultValue": "",
+      "description": "Extra Enshrouded launch arguments. WindowsGSH removes duplicates for module-managed flags.",
+      "group": "Launch",
+      "restartRequired": true
+    }
+  ],
+  "configFiles": [
+    "enshrouded_server.json"
+  ],
+  "backupTargets": [
+    {
+      "key": "savegame",
+      "label": "Save Data",
+      "path": "savegame",
+      "type": "directory",
+      "required": true
+    },
+    {
+      "key": "config",
+      "label": "Server Config",
+      "path": "enshrouded_server.json",
+      "type": "file",
+      "required": true
+    },
+    {
+      "key": "logs",
+      "label": "Logs",
+      "path": "logs",
+      "type": "directory"
+    }
+  ],
+  "addons": [
+    {
+      "id": "manual-config",
+      "name": "Manual Config Review",
+      "description": "Tracks Enshrouded's JSON config and role passwords for manual review.",
+      "installInstructions": "Review enshrouded_server.json after first start to copy generated role passwords and adjust any advanced settings not exposed by WindowsGSH."
+    }
+  ]
+}

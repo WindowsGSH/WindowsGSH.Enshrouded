@@ -1,0 +1,5 @@
+Original upstream plugin:
+https://github.com/ohmcodes/WindowsGSM.Enshrouded
+
+Primary source file:
+https://github.com/ohmcodes/WindowsGSM.Enshrouded/blob/main/Enshrouded.cs/Enshrouded.cs
